@@ -1,0 +1,21 @@
+{
+  "name": "curso-2",
+  "version": "1.0.0",
+  "main": "1.http.js",
+  "scripts": {
+    "dev:1": "node --watch 3.express.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "standard": "^17.1.2"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "dependencies": {
+    "express": "5.1.0"
+  }
+}
