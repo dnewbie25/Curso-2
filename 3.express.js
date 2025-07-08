@@ -7,10 +7,20 @@ app.disable('x-powered-by')
 // el middleware se ejecuta entre la peticion y la respuesta
 
 app.use((req, res, next) => {
-  console.log('mi primer middleware')
-  // en el middleware se puede
-  // trackear database
-  // check for cookies
+  if (req.method !== 'POST') return next()
+  if (req.headers['content-type'] !== 'application/json') return next()
+  let body = ''
+
+  req.on('data', chunk => {
+    body += chunk.toString()
+  })
+
+  req.on('end', () => {
+    const data = JSON.parse(body)
+    // mutar la request y meter la informacion en el req.body
+    req.body = data
+    next()
+  })
 })
 
 const PORT = process.env.PORT ?? 3000
@@ -20,16 +30,7 @@ app.get('/pokemon/ditto', (req, res) => {
 })
 
 app.post('/pokemon', (req, res) => {
-  let body = ''
-
-  req.on('data', chunk => {
-    body += chunk.toString()
-  })
-
-  req.on('end', () => {
-    const data = JSON.parse(body)
-    res.status(201).json(JSON.stringify(data))
-  })
+  res.status(201).json(req.body)
 })
 
 app.use((req, res) => {
